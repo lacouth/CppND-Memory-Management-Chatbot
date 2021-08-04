@@ -32,6 +32,7 @@ ChatLogic::~ChatLogic()
     //// STUDENT CODE
     ////
 
+   if(_chatBot != nullptr){
     // delete chatbot instance
     delete _chatBot;
 
@@ -46,6 +47,7 @@ ChatLogic::~ChatLogic()
     {
         delete *it;
     }
+   }
 
     ////
     //// EOF STUDENT CODE
