@@ -18,10 +18,10 @@ ChatLogic::ChatLogic()
     ////
 
     // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+    // _chatBot = new ChatBot("../images/chatbot.png"); 
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+    // _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -32,9 +32,9 @@ ChatLogic::~ChatLogic()
     //// STUDENT CODE
     ////
 
-   if(_chatBot != nullptr){
-    // delete chatbot instance
-    delete _chatBot;
+//    if(_chatBot != nullptr){
+//     // delete chatbot instance
+//     delete _chatBot;
 
     // delete all nodes
     // for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
@@ -43,11 +43,11 @@ ChatLogic::~ChatLogic()
     // }
 
     // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        delete *it;
-    }
-   }
+//     for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
+//     {
+//         delete *it;
+//     }
+    // }
 
     ////
     //// EOF STUDENT CODE
@@ -134,7 +134,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
                         {
-                            _nodes.emplace_back(std::move(new GraphNode(id)));
+                            _nodes.emplace_back(std::make_unique<GraphNode>(id));
                             newNode = _nodes.end() - 1; // get iterator to last element
 
                             // add all answers to current node
@@ -219,8 +219,13 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot);
+    // _chatBot->SetRootNode(rootNode);
+
+    ChatBot chatbot("../images/chatbot.png");
+    this->SetChatbotHandle(&chatbot);
+    chatbot.SetChatLogicHandle(this);
+    chatbot.SetRootNode(rootNode);    
+    rootNode->MoveChatbotHere(std::move(chatbot));
     
     ////
     //// EOF STUDENT CODE
